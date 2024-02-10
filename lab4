@@ -1,0 +1,75 @@
+#KлассKласс Book: id, Название, Автор (ы), Издательство, Год издания, Количество страниц, Цена, Тип переплета.
+#Функции-члены реализуют запись и считывание полей (проверка корректности).
+#Создать список объектов. Вывести:
+#a)	список книг заданного автора;
+#б) список книг, выпущенных после заданного года.
+# Book: id, Название, Автор (ы), Издательство, Год издания, Количество страниц, Цена, Тип переплета.
+#Функции-члены реализуют запись и считывание полей (проверка корректности).
+#Создать список объектов. Вывести:
+#a)	список книг заданного автора;
+#б) список книг, выпущенных после заданного года.
+class Book:
+    def __init__(self, id, title, author, publisher, year, pages, price, binding_type):
+        self.id = id
+        self.title = title
+        self.author = author
+        self.publisher = publisher
+        self.year = Book._validate_year(year)
+        self.pages = pages
+        self.price = price
+        self.binding_type = binding_type
+
+    @staticmethod
+    def _validate_year(year):
+        if not (0 < year <= 2024):
+            raise ValueError
+        return year
+
+    @classmethod
+    def books_by_author(cls, books, author):
+        return [book for book in books if book.author == author]
+
+    @classmethod
+    def books_after_year(cls, books, year):
+        return [book for book in books if book.year > year]
+
+    def get_id(self):
+        return self.id
+
+    def get_title(self):
+        return self.title
+
+    def get_author(self):
+        return self.author
+
+    def get_publisher(self):
+        return self.publisher
+
+    def get_year(self):
+        return self.year
+
+    def get_pages(self):
+        return self.pages
+
+    def get_price(self):
+        return self.price
+
+    def get_binding_type(self):
+        return self.binding_type
+
+
+books = [
+    Book(1, 'Война и мир', 'Лев Толстой', 'Азбука', 1869, 1225, 1500.00, 'Твердый переплет'),
+    Book(2, 'Преступление и наказание', 'Федор Достоевский', 'Просвет', 1866, 672, 750.00, 'Твердый переплет'),
+    Book(3, 'Мастер и Маргарита', 'Михаил Булгаков', 'Вече', 1967, 512, 650.00, 'Мягкий переплет'),
+    Book(4, 'Анна Каренина', 'Лев Толстой', 'Олимп', 1877, 864, 800.00, 'Твердый переплет'),
+    Book(5, 'Собачье сердце', 'Михаил Булгаков', 'Новый Акрополь', 1925, 480, 540.00, 'Мягкий переплет'),
+]
+
+tolstoy_books = Book.books_by_author(books, 'Лев Толстой')
+for book in tolstoy_books:
+    print(book.get_title())
+
+books_20th_century_onwards = Book.books_after_year(books, 1900)
+for book in books_20th_century_onwards:
+    print(book.get_title(), book.get_year())
